@@ -341,7 +341,40 @@
     <!-- ====================== PRECIOS ====================== -->
     <!-- ====================== FAQ ====================== -->
     <!-- ====================== CONTACTO ====================== -->
-    
+    <section class="section section--soft" id="contacto">
+        <div class="container split">
+            <div class="reveal">
+                <p class="eyebrow">Contacto</p>
+                <h2>¿Tienes preguntas? Hablemos</h2>
+                <p class="muted">Escríbenos y te responderemos en menos de 24 horas.</p>
+                <ul class="contact-list">
+                    <li><span>✉</span> contacto@easypark.pe</li>
+                    <li><span>☎</span> +51 1 234 5678</li>
+                    <li><span>◎</span> Lima, Perú</li>
+                </ul>
+            </div>
+
+            <form class="form reveal" id="contactForm" novalidate>
+                <div class="field">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required>
+                    <small class="error"></small>
+                </div>
+                <div class="field">
+                    <label for="correo">Correo electrónico</label>
+                    <input type="email" id="correo" name="correo" placeholder="tucorreo@ejemplo.com" required>
+                    <small class="error"></small>
+                </div>
+                <div class="field">
+                    <label for="mensaje">Mensaje</label>
+                    <textarea id="mensaje" name="mensaje" rows="4" placeholder="Cuéntanos qué necesitas" required></textarea>
+                    <small class="error"></small>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Enviar mensaje</button>
+                <p class="form-ok" id="formOk" hidden>¡Gracias! Hemos recibido tu mensaje.</p>
+            </form>
+        </div>
+    </section>    
     
     <!-- ====================== CTA FINAL ====================== -->
     <section class="cta">
@@ -365,7 +398,7 @@
         <div class="container footer-grid">
             <div class="footer-brand">
                 <a href="#hero" class="brand brand--light">
-                    <img src="assets/imgs/easypark.jpeg" alt="Logo EasyPark">
+                    <img src="assets/images/easypark.jpeg" alt="Logo EasyPark">
                     <span>EasyPark</span>
                 </a>
                 <p>Plataforma de gestión de estacionamientos en tiempo real para conductores y administradores.</p>
