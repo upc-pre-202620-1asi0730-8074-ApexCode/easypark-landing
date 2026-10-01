@@ -67,3 +67,36 @@ h1, h2, h3, h4 { line-height: 1.2; letter-spacing: -0.01em; }
 .container { width: 100%; max-width: var(--container); margin: 0 auto; padding: 0 40px; }
 .container--narrow { max-width: 840px; }
 
+/* ================= Typography helpers ================= */
+.eyebrow {
+    display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--primary); background: var(--primary-tint); padding: 6px 12px; border-radius: var(--radius-pill); margin-bottom: 16px;
+}
+.eyebrow--light { color: #BFDBFE; background: rgba(37, 99, 235, .22); }
+h2 { font-size: clamp(28px, 3.2vw, 36px); font-weight: 800; margin-bottom: 16px; }
+.muted { color: var(--text-2); font-size: 16px; }
+.muted-light { color: #CBD5E1; font-size: 16px; }
+.text-danger { color: var(--danger); }
+
+/* ================= Buttons ================= */
+.btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    font-size: 14px; font-weight: 600; line-height: 1; padding: 12px 20px; min-height: 44px;
+    border-radius: var(--radius-sm); border: 1px solid transparent; white-space: nowrap;
+    transition: background-color .2s, border-color .2s, color .2s, transform .1s, box-shadow .2s;
+}
+.btn:active { transform: translateY(1px); }
+.btn .ico { width: 18px; height: 18px; }
+.btn-lg { font-size: 15px; padding: 14px 24px; min-height: 52px; }
+.btn-block { width: 100%; }
+.btn-primary { background: var(--primary); color: #fff; box-shadow: 0 6px 16px rgba(37, 99, 235, .25); }
+.btn-primary:hover { background: var(--primary-hover); }
+.btn-outline { background: var(--surface); color: var(--text); border-color: var(--border); }
+.btn-outline:hover { border-color: var(--primary); color: var(--primary); }
+.btn-ghost { color: var(--text); }
+.btn-ghost:hover { color: var(--primary); background: var(--primary-tint); }
+.btn-white { background: #fff; color: var(--primary); }
+.btn-white:hover { background: var(--primary-tint); }
+.btn-outline-light { color: #fff; border-color: rgba(255, 255, 255, .55); }
+.btn-outline-light:hover { background: rgba(255, 255, 255, .12); border-color: #fff; }
+
