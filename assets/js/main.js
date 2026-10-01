@@ -184,3 +184,43 @@
       featurePanel.classList.add("is-changing");
     });
   });
+
+  /* ==================================================================
+     8. Pricing: monthly / annual toggle
+     ================================================================== */
+  var billingBtns = document.querySelectorAll(".plan-toggle-btn");
+  billingBtns.forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var annual = btn.dataset.billing === "annual";
+      billingBtns.forEach(function (b) {
+        var active = b === btn;
+        b.classList.toggle("is-active", active);
+        b.setAttribute("aria-pressed", String(active));
+      });
+      document.querySelectorAll(".price-monthly").forEach(function (el) { el.hidden = annual; });
+      document.querySelectorAll(".price-annual, .save-badge").forEach(function (el) { el.hidden = !annual; });
+    });
+  });
+
+  /* ==================================================================
+     9. Videos
+     ================================================================== */
+  document.querySelectorAll("[data-video]").forEach(function (frame) {
+    var url = CONFIG.VIDEOS[frame.dataset.video];
+    var play = frame.querySelector(".video-play");
+    if (!url) {
+      frame.classList.add("is-empty");
+      play.setAttribute("disabled", "");
+      return;
+    }
+    frame.querySelector(".video-soon").hidden = true;
+    play.addEventListener("click", function () {
+      var iframe = document.createElement("iframe");
+      iframe.src = url;
+      iframe.title = frame.dataset.video === "team" ? t("team.videoTitle") : t("overview.videoTitle");
+      iframe.allow = "accelerometer; autoplay; encrypted-media; picture-in-picture; fullscreen";
+      iframe.allowFullscreen = true;
+      frame.innerHTML = "";
+      frame.appendChild(iframe);
+    });
+  });
