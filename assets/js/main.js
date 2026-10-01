@@ -224,3 +224,74 @@
       frame.appendChild(iframe);
     });
   });
+
+  /* ==================================================================
+     10. Team photos: fall back to initials when a photo is missing
+     ================================================================== */
+  document.querySelectorAll(".team-avatar img").forEach(function (img) {
+    var fallback = function () { img.parentElement.classList.add("no-photo"); img.remove(); };
+    if (img.complete && img.naturalWidth === 0) fallback();
+    else img.addEventListener("error", fallback);
+  });
+
+  /* ==================================================================
+     11. Contact form validation
+     ================================================================== */
+  var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+  function setError(input, key) {
+    var field = input.closest(".field");
+    var small = field.querySelector(".error");
+    field.classList.toggle("has-error", Boolean(key));
+    input.setAttribute("aria-invalid", String(Boolean(key)));
+    if (small.id) input.setAttribute("aria-describedby", small.id);
+    small.textContent = key ? t(key) : "";
+    return !key;
+  }
+
+  function validateField(input) {
+    var value = input.value.trim();
+    if (!value) return setError(input, "contact.errRequired");
+    if (input.type === "email" && !EMAIL_RE.test(value)) return setError(input, "contact.errEmail");
+    if (input.tagName === "TEXTAREA" && value.length < 10) return setError(input, "contact.errShort");
+    return setError(input, "");
+  }
+
+  var form = document.getElementById("contact-form");
+  if (form) {
+    var formOk = document.getElementById("form-ok");
+    var fields = form.querySelectorAll("input, textarea");
+    fields.forEach(function (input) {
+      input.addEventListener("blur", function () { validateField(input); });
+      input.addEventListener("input", function () {
+        if (input.closest(".field").classList.contains("has-error")) validateField(input);
+      });
+    });
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      formOk.hidden = true;
+      var valid = true;
+      fields.forEach(function (input) { if (!validateField(input)) valid = false; });
+      if (!valid) {
+        form.querySelector(".has-error input, .has-error textarea").focus();
+        return;
+      }
+      formOk.hidden = false;
+      form.reset();
+    });
+  }
+
+  /* ==================================================================
+     12. Init
+     ================================================================== */
+  var year = document.getElementById("year");
+  if (year) year.textContent = new Date().getFullYear();
+
+  I18n.onChange(function () {
+    document.querySelectorAll(".field.has-error input, .field.has-error textarea").forEach(validateField);
+    refreshOpenAccordions();
+  });
+
+  I18n.init();
+  refreshOpenAccordions();
+})();
