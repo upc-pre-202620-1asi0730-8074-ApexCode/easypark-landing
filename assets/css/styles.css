@@ -110,7 +110,7 @@ h2 { font-size: clamp(28px, 3.2vw, 36px); font-weight: 800; margin-bottom: 16px;
 .nav-container { height: 100%; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
 
 .brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 700; font-size: 19px; color: var(--text); flex-shrink: 0; }
-.brand img { width: 34px; height: 34px; }
+.brand img { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; background: #fff; }
 .brand--light { color: #fff; }
 
 .nav-links { display: flex; align-items: center; gap: 4px; }
