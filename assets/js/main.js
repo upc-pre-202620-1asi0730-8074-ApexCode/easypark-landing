@@ -53,3 +53,79 @@
       if (section) spy.observe(section);
     });
   }
+
+  /* ==================================================================
+     4. Reveal on scroll + hero counters
+     ================================================================== */
+  var revealables = document.querySelectorAll(".reveal");
+  if ("IntersectionObserver" in window) {
+    var revealObserver = new IntersectionObserver(function (entries, observer) {
+      entries.forEach(function (entry, i) {
+        if (!entry.isIntersecting) return;
+        setTimeout(function () { entry.target.classList.add("is-visible"); }, Math.min(i * 70, 280));
+        observer.unobserve(entry.target);
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
+    revealables.forEach(function (el) { revealObserver.observe(el); });
+  } else {
+    revealables.forEach(function (el) { el.classList.add("is-visible"); });
+  }
+
+  function formatNumber(n) { return n.toLocaleString(I18n.getLocale()); }
+
+  function animateCount(el) {
+    var target = parseInt(el.getAttribute("data-count"), 10);
+    var suffix = el.getAttribute("data-suffix") || "";
+    var start = null;
+    function step(ts) {
+      if (start === null) start = ts;
+      var p = Math.min((ts - start) / 1400, 1);
+      el.textContent = formatNumber(Math.round(target * (1 - Math.pow(1 - p, 3)))) + suffix;
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  var counters = document.querySelectorAll("[data-count]");
+  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if ("IntersectionObserver" in window && !reduceMotion) {
+    var countObserver = new IntersectionObserver(function (entries, observer) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        animateCount(entry.target);
+        observer.unobserve(entry.target);
+      });
+    }, { threshold: 0.6 });
+    counters.forEach(function (el) { countObserver.observe(el); });
+  }
+
+  /* ==================================================================
+     5. Accordions (benefits + FAQ)
+     ================================================================== */
+  function setOpen(item, open) {
+    var head = item.querySelector(".acc-head");
+    var body = item.querySelector(".acc-body");
+    item.classList.toggle("is-open", open);
+    head.setAttribute("aria-expanded", String(open));
+    body.style.maxHeight = open ? body.scrollHeight + "px" : null;
+  }
+
+  document.querySelectorAll("[data-accordion]").forEach(function (acc) {
+    var items = acc.querySelectorAll(".acc-item");
+    items.forEach(function (item) {
+      if (item.classList.contains("is-open")) setOpen(item, true);
+      item.querySelector(".acc-head").addEventListener("click", function () {
+        var wasOpen = item.classList.contains("is-open");
+        items.forEach(function (other) { setOpen(other, false); });
+        if (!wasOpen) setOpen(item, true);
+      });
+    });
+  });
+
+  // Recalculate open panels when text length changes (language / resize)
+  function refreshOpenAccordions() {
+    document.querySelectorAll(".acc-item.is-open .acc-body").forEach(function (body) {
+      body.style.maxHeight = body.scrollHeight + "px";
+    });
+  }
+  window.addEventListener("resize", refreshOpenAccordions);
