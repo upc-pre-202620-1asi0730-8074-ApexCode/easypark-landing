@@ -129,3 +129,58 @@
     });
   }
   window.addEventListener("resize", refreshOpenAccordions);
+
+  /* ==================================================================
+     6. Benefits: segment tabs (drivers / operators)
+     ================================================================== */
+  var segmentTabs = document.querySelectorAll("[data-segment-tab]");
+
+  function showSegment(segment) {
+    segmentTabs.forEach(function (tab) {
+      var active = tab.dataset.segmentTab === segment;
+      tab.classList.toggle("is-active", active);
+      tab.setAttribute("aria-selected", String(active));
+    });
+    document.querySelectorAll("[data-segment-panel]").forEach(function (panel) {
+      panel.hidden = panel.dataset.segmentPanel !== segment;
+    });
+    refreshOpenAccordions();
+  }
+
+  segmentTabs.forEach(function (tab) {
+    tab.addEventListener("click", function () { showSegment(tab.dataset.segmentTab); });
+  });
+
+  // Hero CTAs open the matching segment
+  document.querySelectorAll("[data-segment]").forEach(function (cta) {
+    cta.addEventListener("click", function () { showSegment(cta.dataset.segment); });
+  });
+
+  /* ==================================================================
+     7. Features: vertical tabs
+     ================================================================== */
+  var FEATURE_ICONS = { 1: "#i-search", 2: "#i-calendar", 3: "#i-qr", 4: "#i-map", 5: "#i-bell", 6: "#i-chart" };
+  var featureTabs = document.querySelectorAll(".feature-tab");
+  var featurePanel = document.querySelector(".feature-panel");
+
+  featureTabs.forEach(function (tab) {
+    tab.addEventListener("click", function () {
+      var n = tab.dataset.feature;
+      featureTabs.forEach(function (tb) {
+        var active = tb === tab;
+        tb.classList.toggle("is-active", active);
+        tb.setAttribute("aria-selected", String(active));
+      });
+      document.getElementById("feature-ico").setAttribute("href", FEATURE_ICONS[n]);
+      var map = { "feature-title": "", "feature-desc": "Desc", "feature-p1": "P1", "feature-p2": "P2", "feature-p3": "P3" };
+      Object.keys(map).forEach(function (id) {
+        var el = document.getElementById(id);
+        var key = "features.tab" + n + map[id];
+        el.setAttribute("data-i18n", key);
+        el.textContent = t(key);
+      });
+      featurePanel.classList.remove("is-changing");
+      void featurePanel.offsetWidth;
+      featurePanel.classList.add("is-changing");
+    });
+  });
