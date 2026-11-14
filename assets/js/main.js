@@ -8,7 +8,7 @@
       signup: "/iam/sign-up",
       search: "/reservations/new"
     },
-    VIDEOS: { product: "https://www.youtube-nocookie.com/embed/5vQjvJ_VTxE?autoplay=1&rel=0", team: "" }
+    VIDEOS: { product: "https://www.youtube-nocookie.com/embed/5vQjvJ_VTxE?autoplay=1&rel=0", team: "https://www.youtube-nocookie.com/embed/QKnrOvBO4II?autoplay=1&rel=0" }
   };
 
   var t = I18n.t;
